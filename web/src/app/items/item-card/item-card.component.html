@@ -1,0 +1,45 @@
+<div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 relative">
+  <!-- Low Stock Badge -->
+  <div *ngIf="isCritical" class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+    LOW STOCK
+  </div>
+
+  <!-- Item Name -->
+  <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ item.nombre }}</h3>
+
+  <!-- Item Description -->
+  <p class="text-gray-600 text-sm mb-4 h-12 overflow-hidden">{{ item.descripcion }}</p>
+
+  <!-- Item Details -->
+  <div class="space-y-2 mb-4">
+    <div class="flex justify-between items-center">
+      <span class="text-gray-500 text-sm">Category:</span>
+      <span class="text-gray-700 font-medium text-sm bg-gray-100 px-2 py-1 rounded">{{ item.categoria }}</span>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <span class="text-gray-500 text-sm">Price:</span>
+      <span class="text-gray-700 font-medium">${{ item.precio_unitario.toFixed(2) }}</span>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <span class="text-gray-500 text-sm">Stock:</span>
+      <span
+        [class]="isCritical ? 'text-red-600 font-bold' : 'text-green-600 font-bold'">
+        {{ item.stock_actual }} units
+      </span>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <span class="text-gray-500 text-sm">Critical Level:</span>
+      <span class="text-gray-700">{{ item.stock_critico }} units</span>
+    </div>
+  </div>
+
+  <!-- Action Button -->
+  <button
+    (click)="onTransactionClick()"
+    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-200">
+    Register Transaction
+  </button>
+</div>

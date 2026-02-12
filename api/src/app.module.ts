@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ItemsModule } from './items/items.module';
 import { Item } from './items/entities/item.entity';
+import { Transaction } from './items/entities/transaction.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { Item } from './items/entities/item.entity';
       username: process.env.DB_USER || 'root',
       password: process.env.DB_PASSWORD || '',
       database: process.env.DB_NAME || 'office_inventory',
-      entities: [Item],
+      entities: [Item, Transaction],
       synchronize: true, // Auto-create tables in development
     }),
     ItemsModule,

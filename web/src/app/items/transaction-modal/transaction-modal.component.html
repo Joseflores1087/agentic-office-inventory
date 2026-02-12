@@ -1,0 +1,97 @@
+<!-- Modal Backdrop -->
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  (click)="onBackdropClick($event)">
+
+  <!-- Modal Content -->
+  <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center border-b border-gray-200 px-6 py-4">
+      <h2 class="text-xl font-semibold text-gray-800">Register Transaction</h2>
+      <button
+        (click)="onClose()"
+        class="text-gray-400 hover:text-gray-600 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="px-6 py-4">
+      <!-- Item Info -->
+      <div class="bg-gray-50 rounded-lg p-4 mb-4">
+        <h3 class="font-semibold text-gray-800 mb-2">{{ item.nombre }}</h3>
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-600">Current Stock:</span>
+          <span class="font-semibold" [class.text-red-600]="item.stock_actual <= item.stock_critico"
+                                      [class.text-green-600]="item.stock_actual > item.stock_critico">
+            {{ item.stock_actual }} units
+          </span>
+        </div>
+      </div>
+
+      <!-- Transaction Form -->
+      <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+        <!-- Transaction Type -->
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-semibold mb-2">
+            Transaction Type
+          </label>
+          <div class="flex gap-4">
+            <label class="flex items-center cursor-pointer">
+              <input
+                type="radio"
+                formControlName="tipo"
+                [value]="TransactionType.ENTRADA"
+                class="mr-2 w-4 h-4 text-blue-600">
+              <span class="text-gray-700">ENTRADA (Stock In)</span>
+            </label>
+            <label class="flex items-center cursor-pointer">
+              <input
+                type="radio"
+                formControlName="tipo"
+                [value]="TransactionType.SALIDA"
+                class="mr-2 w-4 h-4 text-blue-600">
+              <span class="text-gray-700">SALIDA (Stock Out)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="mb-6">
+          <label for="cantidad" class="block text-gray-700 text-sm font-semibold mb-2">
+            Quantity
+          </label>
+          <input
+            type="number"
+            id="cantidad"
+            formControlName="cantidad"
+            min="1"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter quantity">
+          <div *ngIf="transactionForm.get('cantidad')?.invalid && transactionForm.get('cantidad')?.touched"
+               class="text-red-500 text-sm mt-1">
+            Quantity must be at least 1
+          </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="flex justify-end gap-3">
+          <button
+            type="button"
+            (click)="onClose()"
+            class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            [disabled]="transactionForm.invalid"
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+            Submit Transaction
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,13 +1,17 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Item, ItemCategoria } from './entities/item.entity';
+import { Transaction, TransactionType } from './entities/transaction.entity';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { InsufficientStockException } from './exceptions/insufficient-stock.exception';
 
 @Injectable()
 export class ItemsService implements OnModuleInit {
   constructor(
     @InjectRepository(Item)
     private readonly itemRepository: Repository<Item>,
+    private readonly dataSource: DataSource,
   ) {}
 
   async onModuleInit() {
@@ -79,5 +83,51 @@ export class ItemsService implements OnModuleInit {
 
   async findAll(): Promise<Item[]> {
     return this.itemRepository.find();
+  }
+
+  async createTransaction(
+    itemId: number,
+    dto: CreateTransactionDto,
+  ): Promise<Transaction> {
+    // Find the item
+    const item = await this.itemRepository.findOne({ where: { id: itemId } });
+    if (!item) {
+      throw new NotFoundException(`Item with ID ${itemId} not found`);
+    }
+
+    // Validate stock for SALIDA transactions
+    if (dto.tipo === TransactionType.SALIDA && dto.cantidad > item.stock_actual) {
+      throw new InsufficientStockException(
+        item.nombre,
+        item.stock_actual,
+        dto.cantidad,
+      );
+    }
+
+    // Calculate new stock
+    const stockAnterior = item.stock_actual;
+    const stockNuevo =
+      dto.tipo === TransactionType.ENTRADA
+        ? stockAnterior + dto.cantidad
+        : stockAnterior - dto.cantidad;
+
+    // Use database transaction for atomicity
+    return await this.dataSource.transaction(async (manager) => {
+      // Update item stock
+      item.stock_actual = stockNuevo;
+      await manager.save(Item, item);
+
+      // Create transaction record
+      const transaction = manager.create(Transaction, {
+        item_id: itemId,
+        tipo: dto.tipo,
+        cantidad: dto.cantidad,
+        stock_anterior: stockAnterior,
+        stock_nuevo: stockNuevo,
+        realizado_por: 'Sistema',
+      });
+
+      return await manager.save(Transaction, transaction);
+    });
   }
 }
