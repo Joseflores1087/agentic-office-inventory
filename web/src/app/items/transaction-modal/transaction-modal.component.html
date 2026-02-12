@@ -1,16 +1,16 @@
 <!-- Modal Backdrop -->
 <div
-  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  class="fixed inset-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
   (click)="onBackdropClick($event)">
 
   <!-- Modal Content -->
-  <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+  <div class="bg-white rounded-xl shadow-2xl max-w-md w-full">
     <!-- Modal Header -->
-    <div class="flex justify-between items-center border-b border-gray-200 px-6 py-4">
-      <h2 class="text-xl font-semibold text-gray-800">Register Transaction</h2>
+    <div class="flex justify-between items-center border-b border-slate-200 px-6 py-4">
+      <h2 class="text-2xl font-bold text-slate-900">Register Transaction</h2>
       <button
         (click)="onClose()"
-        class="text-gray-400 hover:text-gray-600 transition-colors">
+        class="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded-lg hover:bg-slate-100">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
@@ -18,14 +18,14 @@
     </div>
 
     <!-- Modal Body -->
-    <div class="px-6 py-4">
+    <div class="px-6 py-6">
       <!-- Item Info -->
-      <div class="bg-gray-50 rounded-lg p-4 mb-4">
-        <h3 class="font-semibold text-gray-800 mb-2">{{ item.nombre }}</h3>
+      <div class="bg-slate-50 rounded-lg p-4 mb-6 border border-slate-200">
+        <h3 class="font-semibold text-slate-900 mb-2 text-lg">{{ item.nombre }}</h3>
         <div class="flex justify-between text-sm">
-          <span class="text-gray-600">Current Stock:</span>
-          <span class="font-semibold" [class.text-red-600]="item.stock_actual <= item.stock_critico"
-                                      [class.text-green-600]="item.stock_actual > item.stock_critico">
+          <span class="text-slate-600 font-medium">Current Stock:</span>
+          <span class="font-bold" [class.text-red-600]="item.stock_actual <= item.stock_critico"
+                                   [class.text-emerald-600]="item.stock_actual > item.stock_critico">
             {{ item.stock_actual }} units
           </span>
         </div>
@@ -34,33 +34,33 @@
       <!-- Transaction Form -->
       <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
         <!-- Transaction Type -->
-        <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-semibold mb-2">
+        <div class="mb-6">
+          <label class="block text-slate-900 text-sm font-bold mb-3">
             Transaction Type
           </label>
           <div class="flex gap-4">
-            <label class="flex items-center cursor-pointer">
+            <label class="flex items-center cursor-pointer group">
               <input
                 type="radio"
                 formControlName="tipo"
                 [value]="TransactionType.ENTRADA"
-                class="mr-2 w-4 h-4 text-blue-600">
-              <span class="text-gray-700">ENTRADA (Stock In)</span>
+                class="mr-2 w-4 h-4 text-indigo-600 focus:ring-indigo-500">
+              <span class="text-slate-700 group-hover:text-slate-900 font-medium">ENTRADA (Stock In)</span>
             </label>
-            <label class="flex items-center cursor-pointer">
+            <label class="flex items-center cursor-pointer group">
               <input
                 type="radio"
                 formControlName="tipo"
                 [value]="TransactionType.SALIDA"
-                class="mr-2 w-4 h-4 text-blue-600">
-              <span class="text-gray-700">SALIDA (Stock Out)</span>
+                class="mr-2 w-4 h-4 text-indigo-600 focus:ring-indigo-500">
+              <span class="text-slate-700 group-hover:text-slate-900 font-medium">SALIDA (Stock Out)</span>
             </label>
           </div>
         </div>
 
         <!-- Quantity -->
         <div class="mb-6">
-          <label for="cantidad" class="block text-gray-700 text-sm font-semibold mb-2">
+          <label for="cantidad" class="block text-slate-900 text-sm font-bold mb-2">
             Quantity
           </label>
           <input
@@ -68,26 +68,26 @@
             id="cantidad"
             formControlName="cantidad"
             min="1"
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
             placeholder="Enter quantity">
           <div *ngIf="transactionForm.get('cantidad')?.invalid && transactionForm.get('cantidad')?.touched"
-               class="text-red-500 text-sm mt-1">
-            Quantity must be at least 1
+               class="text-red-600 text-sm mt-2 font-medium">
+            ⚠ Quantity must be at least 1
           </div>
         </div>
 
         <!-- Modal Footer -->
-        <div class="flex justify-end gap-3">
+        <div class="flex justify-end gap-3 pt-2">
           <button
             type="button"
             (click)="onClose()"
-            class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors">
+            class="px-5 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold rounded-lg transition-all">
             Cancel
           </button>
           <button
             type="submit"
             [disabled]="transactionForm.invalid"
-            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+            class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all shadow-sm hover:shadow-md disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:shadow-none">
             Submit Transaction
           </button>
         </div>

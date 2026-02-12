@@ -1,5 +1,6 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { ItemsService, Item, CreateTransactionDto } from '../items.service';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Component({
   selector: 'app-items-list',
@@ -19,6 +20,8 @@ export class ItemsListComponent implements OnInit {
     this.items().filter(item => item.stock_actual <= item.stock_critico)
   );
 
+  private toastService = inject(ToastService);
+
   constructor(private itemsService: ItemsService) {}
 
   ngOnInit(): void {
@@ -37,6 +40,7 @@ export class ItemsListComponent implements OnInit {
       error: (err) => {
         this.error.set('Error loading items. Please try again.');
         this.loading.set(false);
+        this.toastService.error('Error loading items. Please try again.');
         console.error('Error loading items:', err);
       }
     });
@@ -57,13 +61,15 @@ export class ItemsListComponent implements OnInit {
     if (!item) return;
 
     this.itemsService.createTransaction(item.id, dto).subscribe({
-      next: () => {
+      next: (transaction) => {
         this.closeModal();
         this.loadItems(); // Auto-refresh after successful transaction
+        const actionText = dto.tipo === 'ENTRADA' ? 'added to' : 'removed from';
+        this.toastService.success(`Successfully ${actionText} ${item.nombre} (${dto.cantidad} units)`);
       },
       error: (err) => {
         const errorMessage = err.error?.message || 'Error processing transaction';
-        alert(`Error: ${errorMessage}`);
+        this.toastService.error(errorMessage);
         console.error('Transaction error:', err);
       }
     });
