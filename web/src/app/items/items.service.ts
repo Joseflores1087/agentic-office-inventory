@@ -45,7 +45,7 @@ export interface Transaction {
   providedIn: 'root',
 })
 export class ItemsService {
-  private apiUrl = 'http://localhost:3000/api/items';
+  private apiUrl = 'http://localhost:3007/api/items';
 
   constructor(private http: HttpClient) {}
 
