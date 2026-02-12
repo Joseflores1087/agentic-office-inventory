@@ -21,6 +21,10 @@ import { Transaction } from './items/entities/transaction.entity';
       database: process.env.DB_NAME || 'office_inventory',
       entities: [Item, Transaction],
       synchronize: true, // Auto-create tables in development
+      extra: {
+        connectionLimit: 10,
+      },
+      connectTimeout: 60000, // 60 seconds
     }),
     ItemsModule,
   ],
