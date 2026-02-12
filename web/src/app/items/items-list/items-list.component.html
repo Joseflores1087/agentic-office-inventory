@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-slate-50">
   <div class="container mx-auto px-4 py-8">
     <div class="mb-8">
-      <h1 class="text-4xl font-bold text-slate-900 mb-2">Office Inventory</h1>
-      <p class="text-slate-600">Manage your office items and stock levels</p>
+      <h1 class="text-4xl font-bold text-slate-900 mb-2">Inventario de Oficina</h1>
+      <p class="text-slate-600">Gestiona tus artículos de oficina y niveles de stock</p>
     </div>
 
     <!-- Loading Spinner -->
@@ -27,8 +27,8 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
         </svg>
         <div>
-          <p class="font-bold text-lg">Low Stock Alert!</p>
-          <p class="mt-1">{{ criticalItems().length }} item(s) have reached or fallen below critical stock levels.</p>
+          <p class="font-bold text-lg">¡Alerta de Stock Bajo!</p>
+          <p class="mt-1">{{ criticalItems().length }} artículo(s) han alcanzado o caído por debajo del nivel crítico de stock.</p>
         </div>
       </div>
     </div>
@@ -48,8 +48,8 @@
       <svg class="mx-auto h-24 w-24 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
       </svg>
-      <p class="text-slate-500 text-xl font-medium">No items found in inventory</p>
-      <p class="text-slate-400 mt-2">Start by adding your first item</p>
+      <p class="text-slate-500 text-xl font-medium">No se encontraron artículos en el inventario</p>
+      <p class="text-slate-400 mt-2">Comienza agregando tu primer artículo</p>
     </div>
 
     <!-- Transaction Modal -->
@@ -57,7 +57,7 @@
       *ngIf="showModal() && selectedItem()"
       [item]="selectedItem()!"
       (close)="closeModal()"
-      (submit)="onTransactionSubmit($event)">
+      (submitTransaction)="onTransactionSubmit($event)">
     </app-transaction-modal>
   </div>
 </div>

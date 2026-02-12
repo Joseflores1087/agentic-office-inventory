@@ -1,7 +1,7 @@
 <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 p-6 relative border border-slate-200">
   <!-- Low Stock Badge -->
   <div *ngIf="isCritical" class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-    LOW STOCK
+    STOCK BAJO
   </div>
 
   <!-- Item Name -->
@@ -13,28 +13,28 @@
   <!-- Item Details -->
   <div class="space-y-3 mb-4">
     <div class="flex justify-between items-center">
-      <span class="text-slate-500 text-sm font-medium">Category:</span>
+      <span class="text-slate-500 text-sm font-medium">Categoría:</span>
       <span [class]="'font-medium text-sm px-3 py-1 rounded-full border ' + getCategoryColor()">
         {{ item.categoria }}
       </span>
     </div>
 
     <div class="flex justify-between items-center">
-      <span class="text-slate-500 text-sm font-medium">Price:</span>
-      <span class="text-slate-900 font-semibold">${{ item.precio_unitario.toFixed(2) }}</span>
+      <span class="text-slate-500 text-sm font-medium">Precio:</span>
+      <span class="text-slate-900 font-semibold">${{ (+item.precio_unitario).toFixed(2) }}</span>
     </div>
 
     <div class="flex justify-between items-center">
       <span class="text-slate-500 text-sm font-medium">Stock:</span>
       <span
         [class]="isCritical ? 'text-red-600 font-bold' : 'text-emerald-600 font-bold'">
-        {{ item.stock_actual }} units
+        {{ item.stock_actual }} unidades
       </span>
     </div>
 
     <div class="flex justify-between items-center">
-      <span class="text-slate-500 text-sm font-medium">Critical Level:</span>
-      <span class="text-slate-700 font-medium">{{ item.stock_critico }} units</span>
+      <span class="text-slate-500 text-sm font-medium">Nivel Crítico:</span>
+      <span class="text-slate-700 font-medium">{{ item.stock_critico }} unidades</span>
     </div>
   </div>
 
@@ -42,6 +42,6 @@
   <button
     (click)="onTransactionClick()"
     class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
-    Register Transaction
+    Registrar Movimiento
   </button>
 </div>

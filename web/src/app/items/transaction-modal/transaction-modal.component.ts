@@ -10,7 +10,7 @@ import { Item, CreateTransactionDto, TransactionType } from '../items.service';
 export class TransactionModalComponent implements OnInit {
   @Input() item!: Item;
   @Output() close = new EventEmitter<void>();
-  @Output() submit = new EventEmitter<CreateTransactionDto>();
+  @Output() submitTransaction = new EventEmitter<CreateTransactionDto>();
 
   transactionForm!: FormGroup;
   TransactionType = TransactionType; // Make enum available in template
@@ -34,7 +34,7 @@ export class TransactionModalComponent implements OnInit {
         tipo: this.transactionForm.value.tipo,
         cantidad: this.transactionForm.value.cantidad
       };
-      this.submit.emit(dto);
+      this.submitTransaction.emit(dto);
     }
   }
 

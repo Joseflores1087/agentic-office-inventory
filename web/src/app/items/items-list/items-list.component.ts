@@ -38,9 +38,9 @@ export class ItemsListComponent implements OnInit {
         this.loading.set(false);
       },
       error: (err) => {
-        this.error.set('Error loading items. Please try again.');
+        this.error.set('Error al cargar artículos. Por favor intente de nuevo.');
         this.loading.set(false);
-        this.toastService.error('Error loading items. Please try again.');
+        this.toastService.error('Error al cargar artículos. Por favor intente de nuevo.');
         console.error('Error loading items:', err);
       }
     });
@@ -60,15 +60,19 @@ export class ItemsListComponent implements OnInit {
     const item = this.selectedItem();
     if (!item) return;
 
+    console.log('DTO being sent:', dto);
+    console.log('DTO type:', typeof dto);
+    console.log('DTO keys:', Object.keys(dto));
+
     this.itemsService.createTransaction(item.id, dto).subscribe({
       next: (transaction) => {
         this.closeModal();
         this.loadItems(); // Auto-refresh after successful transaction
-        const actionText = dto.tipo === 'ENTRADA' ? 'added to' : 'removed from';
-        this.toastService.success(`Successfully ${actionText} ${item.nombre} (${dto.cantidad} units)`);
+        const actionText = dto.tipo === 'ENTRADA' ? 'agregadas a' : 'retiradas de';
+        this.toastService.success(`${dto.cantidad} unidades ${actionText} ${item.nombre} exitosamente`);
       },
       error: (err) => {
-        const errorMessage = err.error?.message || 'Error processing transaction';
+        const errorMessage = err.error?.message || 'Error al procesar la transacción';
         this.toastService.error(errorMessage);
         console.error('Transaction error:', err);
       }
