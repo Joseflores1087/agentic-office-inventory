@@ -1,0 +1,24 @@
+{
+  "name": "agentic-office-inventory",
+  "version": "1.0.0",
+  "description": "Office Inventory Management System - Monorepo",
+  "scripts": {
+    "start:api": "cd api && npm run start:dev",
+    "start:web": "cd web && npm start",
+    "build:api": "cd api && npm run build",
+    "build:web": "cd web && npm run build",
+    "build": "npm run build:api && npm run build:web",
+    "test:api": "cd api && npm run test",
+    "test:web": "cd web && npm run test -- --watch=false",
+    "test": "npm run test:api && npm run test:web",
+    "install:all": "cd api && npm install && cd ../web && npm install"
+  },
+  "keywords": [
+    "inventory",
+    "nestjs",
+    "angular",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT"
+}

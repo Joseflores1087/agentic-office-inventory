@@ -1,0 +1,25 @@
+<div class="fixed top-4 right-4 z-50 space-y-2">
+  <div
+    *ngFor="let toast of toastService.toasts(); trackBy: trackByToastId"
+    [class]="'flex items-center gap-3 p-4 rounded-lg border-l-4 shadow-lg min-w-[300px] max-w-md animate-slide-in ' + getColorClasses(toast.type)"
+    role="alert">
+    <!-- Icon -->
+    <div [class]="'flex items-center justify-center w-8 h-8 rounded-full font-bold ' + getIconColorClasses(toast.type)">
+      {{ getIcon(toast.type) }}
+    </div>
+
+    <!-- Message -->
+    <div class="flex-1">
+      <p class="font-medium">{{ toast.message }}</p>
+    </div>
+
+    <!-- Close Button -->
+    <button
+      (click)="removeToast(toast.id)"
+      class="text-gray-400 hover:text-gray-600 transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+</div>
