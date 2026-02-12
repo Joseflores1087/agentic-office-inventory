@@ -21,6 +21,9 @@ import { Transaction } from './items/entities/transaction.entity';
       database: process.env.DB_NAME || 'office_inventory',
       entities: [Item, Transaction],
       synchronize: true, // Auto-create tables in development
+      ssl: process.env.DB_HOST?.includes('psdb.cloud')
+        ? { rejectUnauthorized: false }
+        : false,
       extra: {
         connectionLimit: 10,
       },
